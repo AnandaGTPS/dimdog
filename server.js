@@ -1,27 +1,39 @@
+<div id="result"></div>
+<script>
+    async function downloadTikTok() {
+        const url = document.getElementById('url').value;
+        const resultDiv = document.getElementById('result');
 
-   const express = require('express');
-   const axios = require('axios');
-   const bodyParser = require('body-parser');
-   const cors = require('cors');
+        if (!url) {
+            alert('Please enter a TikTok URL');
+            return;
+        }
 
-   const app = express();
-   const port = 3000;
+        resultDiv.innerHTML = "Processing...";
 
-   app.use(cors());
-   app.use(bodyParser.json());
+        try {
+            const response = await fetch('https://your-backend-url.com/download', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ url }),
+            });
 
-   app.post('/download', async (req, res) => {
-       const { url } = req.body;
+            const data = await response.json();
 
-       try {
-           const response = await axios.post('https://ssstik.io/abc?url=dl', { url });
-           res.json(response.data);
-       } catch (error) {
-           res.status(500).json({ error: 'Error fetching video' });
-       }
-   });
-
-   app.listen(port, () => {
-       console.log(`Server running at http://localhost:${port}`);
-   });
-   
+            if (data.error) {
+                resultDiv.innerHTML = `<p style="color: red;">Error: ${data.error}</p>`;
+            } else {
+                resultDiv.innerHTML = `
+                    <p>Download Links:</p>
+                    <a href="${data.videoUrl}" target="_blank" download>Download Video</a><br>
+                    <a href="${data.audioUrl}" target="_blank" download>Download Audio</a>
+                `;
+            }
+        } catch (error) {
+            console.error(error);
+            resultDiv.innerHTML = `<p style="color: red;">An error occurred. Please try again later.</p>`;
+        }
+    }
+</script>
