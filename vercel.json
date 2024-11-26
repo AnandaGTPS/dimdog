@@ -2,7 +2,7 @@
   "version": 2,
   "builds": [
     {
-      "src": "pages/api/download.js",
+      "src": "/pages/api/download.js",
       "use": "@vercel/node"
     }
   ],
