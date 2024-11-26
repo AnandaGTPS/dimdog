@@ -1,26 +1,45 @@
 
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Download TikTok</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <header>
-        <h1>Download TikTok</h1>
-    </header>
-    <main>
-        <form id="downloadForm">
-            <input type="text" id="urlInput" placeholder="Masukkan URL TikTok" required>
-            <button type="submit">Download</button>
-        </form>
-        <div id="result"></div>
-    </main>
-    <footer>
-        <p>Disclaimer: Website ini tidak berafiliasi dengan TikTok.</p>
-    </footer>
-    <script src="script.js"></script>
-</body>
-</html>
+   <!DOCTYPE html>
+   <html lang="en">
+   <head>
+       <meta charset="UTF-8">
+       <meta name="viewport" content="width=device-width, initial-scale=1.0">
+       <title>TikTok Downloader</title>
+       <style>
+           body {
+               font-family: Arial, sans-serif;
+               padding: 20px;
+           }
+           input, button {
+               padding: 10px;
+               margin: 5px;
+           }
+       </style>
+   </head>
+   <body>
+       <h1>TikTok Video Downloader</h1>
+       <input type="text" id="url" placeholder="Enter TikTok URL">
+       <button onclick="downloadVideo()">Download</button>
+
+       <script>
+           async function downloadVideo() {
+               const url = document.getElementById('url').value;
+               try {
+                   const response = await fetch('http://localhost:3000/download', {
+                       method: 'POST',
+                       headers: {
+                           'Content-Type': 'application/json'
+                       },
+                       body: JSON.stringify({ url })
+                   });
+
+                   const data = await response.json();
+                   console.log(data); // Handle the response data here
+               } catch (error) {
+                   console.error('Error:', error);
+               }
+           }
+       </script>
+   </body>
+   </html>
+   
