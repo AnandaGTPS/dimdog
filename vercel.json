@@ -2,14 +2,14 @@
   "version": 2,
   "builds": [
     {
-      "src": "/pages/api/download.js",
+      "src": "app.js",
       "use": "@vercel/node"
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "/pages/api/download.js"
+      "dest": "/app.js"
     }
   ]
 }
