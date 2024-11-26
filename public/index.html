@@ -1,0 +1,45 @@
+
+   <!DOCTYPE html>
+   <html lang="en">
+   <head>
+       <meta charset="UTF-8">
+       <meta name="viewport" content="width=device-width, initial-scale=1.0">
+       <title>TikTok Downloader</title>
+       <style>
+           body {
+               font-family: Arial, sans-serif;
+               padding: 20px;
+           }
+           input, button {
+               padding: 10px;
+               margin: 5px;
+           }
+       </style>
+   </head>
+   <body>
+       <h1>TikTok Video Downloader</h1>
+       <input type="text" id="url" placeholder="Enter TikTok URL">
+       <button onclick="downloadVideo()">Download</button>
+
+       <script>
+           async function downloadVideo() {
+               const url = document.getElementById('url').value;
+               try {
+                   const response = await fetch('http://localhost:3000/download', {
+                       method: 'POST',
+                       headers: {
+                           'Content-Type': 'application/json'
+                       },
+                       body: JSON.stringify({ url })
+                   });
+
+                   const data = await response.json();
+                   console.log(data); // Handle the response data here
+               } catch (error) {
+                   console.error('Error:', error);
+               }
+           }
+       </script>
+   </body>
+   </html>
+   
