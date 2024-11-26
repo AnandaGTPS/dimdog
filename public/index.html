@@ -1,1 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TikTok Downloader</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        input, select, button {
+            padding: 10px;
+            margin: 10px;
+            width: 80%;
+            max-width: 400px;
+        }
+        #result {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>TikTok Downloader</h1>
+    <input type="text" id="url" placeholder="Enter TikTok URL">
+    
+    <select id="resolution">
+        <option value="high">High Quality Video</option>
+        <option value="low">Low Quality Video</option>
+    </select>
 
+    <select id="mediaType">
+        <option value="video">Download Video</option>
+        <option value="audio">Download Audio</option>
+    </select>
+
+    <button onclick="downloadTikTok()">Download</button>
+
+    <div id="result"></div>
+
+    <script>
+        async function downloadTikTok() {
+            const url = document.getElementById('url').value;
+            const resolution = document.getElementById('resolution').value;
+            const mediaType = document.getElementById('mediaType').value;
+            const resultDiv = document.getElementById('result');
+
+            if (!url) {
+                alert('Please enter a TikTok URL');
+                return;
+            }
+
+            resultDiv.innerHTML = "Processing...";
+
+            try {
+                const response = await fetch('/api/download', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ url, resolution, mediaType })
+                });
+
+                const data = await response.json();
+
+                if (data.error) {
+                    resultDiv.innerHTML = `<p style="color: red;">Error: ${data.error}</p>`;
+                } else {
+                    resultDiv.innerHTML = `
+                        <p>Download Link:</p>
+                        <a href="${data.downloadUrl}" target="_blank" download>Click here to download</a>
+                    `;
+                }
+            } catch (error) {
+                console.error(error);
+                resultDiv.innerHTML = `<p style="color: red;">An error occurred. Please try again later.</p>`;
+            }
+        }
+    </script>
+</body>
+</html>
