@@ -9,7 +9,7 @@
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "/pages/api/download.js"
+      "dest": "/index.html"
     }
   ]
 }
